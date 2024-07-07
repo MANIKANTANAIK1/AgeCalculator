@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator</title>
+    <link rel="stylesheet" href="age.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="calculator">
+            <h1><span>Age</span> Calculator</h1>
+            <div class="input-box">
+                <input type="date" id="date">
+                <button onclick="calculateage()">Calculate</button>
+            </div>
+            <p id="result"></p>
+        </div>
+    </div>
+    <script>
+        let userinput = document.getElementById("date");
+        userinput.max = new Date().toISOString().split("T")[0];
+        //This method converts the Date object to a string in ISO 8601 format (e.g., 2024-07-07T12:34:56.789Z). The string includes both the date and the time, separated by a "T" and followed by a "Z" to indicate UTC time.
+        //This splits the ISO string into an array of two parts: the date part (e.g., 2024-07-07) and the time part (e.g., 12:34:56.789Z).
+        //This selects the first element of the array, which is the date part (e.g., 2024-07-07).
+
+        let result = document.getElementById("result");
+        function  calculateage(){
+            let birthDate = new Date(userinput.value);
+
+            let d1 = birthDate.getDate();
+            let m1 = birthDate.getMonth() + 1; 
+            let y1 = birthDate.getYear();
+
+            let today = new Date();
+
+            let d2 = today.getDate();
+            let m2 = today.getMonth() + 1; 
+            let y2 = today.getYear();
+
+            let y3 = y2 - y1;
+            let d3,m3;
+            if(m2 >= m1){
+                m3 = m2 - m1;
+            }
+            else{
+                y3--;
+                m3 = 12 + m2 - m1;
+            }
+
+            if(d2>=d1){
+                d3 = d2  - d1;
+            }
+            else{
+                m3--;
+                d3 = getDaysInMonth(y1, m1) + d2 - d1;
+            }
+            if(m3 < 0){
+                m3 = 11;
+                y3--;
+            }
+            result.innerHTML = `You are <span>${y3}</span> years, <span>${m3}</span> months and <span>${d3}</span> days old `;
+        }
+        
+        function getDaysInMonth(year, month){
+            return new Date(year, month, 0).getDate();
+        }
+        
+    </script>
+</body>
+</html>
